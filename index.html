@@ -5,7 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+	.image-container{
+		margin-top: 10px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		flex-direction:column;
+	}
+	.image-container img {
+        width: 400px;
+        height: 200px;
+        margin: 5px;
+		display: inline-block;
+        object-fit: cover;
+		gap: 0px;
+		text-align: center;
+	  }
+	.textStyle {
+		display: flex;          
+    	justify-content: center; 
+    	align-items: center;    
+    	flex-wrap: wrap;        
+    	gap: 10px;             
+    	font-size: 27px;
+    	font-family: 'Courier New', Courier, monospace;
+    	padding: 20px;
+
+	}
+	select{
+		text-align: center;
+		position: relative;
+		font-size: 27px;
+		font-family: 'Courier New', Courier, monospace;
+		appearance: none; 
+		background-color:#e6e6e6;
+	}
+
+	button{
+		background-color:gainsboro;
+		margin: 10px;
+		padding: 5px;
+		font-size: 27px;
+		font-family: 'Courier New', Courier, monospace;
+	}
+	.outputText{
+		font-size: 27px;
+		font-family: 'Courier New', Courier, monospace;
+		text-align: center;
+		padding: 20px;
+	}
+	body{
+		background-color:#ffe680;
+	}
+</style>
 <body>
-    hehehe
+    <div>
+		<span class="textStyle">
+		Give me a 
+		<select name="headOptions" id="headOptions">
+			<option>fierce</option>
+			<option>lovely</option>
+			<option>smart</option>
+			<option>weird</option>
+		</select>
+		creature with a
+		<select name="bodyOptions" id="bodyOptions">
+			<option>aggresive</option>
+			<option>peaceful</option>
+			<option>thoughtful</option>
+			<option>peculiar</option>
+		</select>
+		personality
+		<button id="generate"> Generate!	</button>
+		</span>
+		
+		<div class="image-container">
+            <div class="theHeadImage" id="theHeadImage"></div>
+            <div class="theBodyImage" id="theBodyImage"></div>
+            <div class="theLegImage" id="theLegImage"></div>
+
+		<div id="output" class="outputText"></div>
+
+
+	</div>
+    <script>
+		
+		//database for texts
+		let head=[
+			["cat", "tiger"],
+			["quoll", "sparrow"],
+			["snake","eagle"],
+			["octopus","human"]
+		];
+
+		let body=[
+			["armor", "fish"],
+			["octopus", "slime"],
+			["rooster", "lizard"],
+			["wood","shirt"]
+				  
+		];
+
+		//let legs=["bird", "tentacles", "snake", "branches","feathers","squirrel","fabric","cat"];
+
+		let descriptions=[
+			"It lays eggs despite being a mammal.",
+			"It never fully matures mentally despite its huge body.",
+			"It can float on air currents, drifting through the skies.",
+			"It can turn transluscent and disappear completely.",
+			"Its roar echoes in multiple frequencies, causing objects to vibrate and shimmer.",
+			"It shifts in color depending on the moment of the day.",
+			"It can momentarily freeze time when it yawns.",
+			"It can stretch and absorb sounds, making it perfectly silent as it hunts.",
+		]
+
+		//database for images
+		let headImage= [
+			["headImages/cat1-1.png","headImages/tiger1-2.png"],
+			["headImages/quoll2-1.png","headImages/sparrow2-2.png"],
+			["headImages/snake3-1.png","headImages/eagle3-2.png"],
+			["headImages/octopus4-1.png","headImages/human4-1.png"]
+		]
+
+		let bodyImage= [
+			["bodyImages/armor1-1.png","bodyImages/fish1-2.png"],
+			["bodyImages/octopus2-1.png","bodyImages/slime2-2.png"],
+			["bodyImages/rooster3-1.png","bodyImages/lizard3-2.png"],
+			["bodyImages/wood4-1.png","bodyImages/shirt4-2.png"]
+		]
+
+		let legImage= [
+			["legImages/leg1.png"],
+			["legImages/leg2.png"],
+			["legImages/leg3.png"],
+			["legImages/leg4.png"],
+			["legImages/leg5.png"],
+			["legImages/leg6.png"],
+			["legImages/leg7.png"],
+			["legImages/leg8.png"],
+		]
+
+		//click the button to generate images and texts
+		document.getElementById('generate').addEventListener('click', () => {
+            // get the index from dropdown
+            const headIndex = document.getElementById('headOptions').selectedIndex;
+            const bodyIndex = document.getElementById('bodyOptions').selectedIndex;
+            
+            // random numbers for generating images and texts
+			// random number for head
+            const r = Math.floor(Math.random() * 2);
+			//random number for body
+            const p = Math.floor(Math.random() * 2);
+			// random numebers for legs and descriptions
+            const n = Math.floor(Math.random() * 8);
+            const m = Math.floor(Math.random() * descriptions.length);
+
+            // get image output
+            updateImage('theHeadImage', headImage[headIndex][r]);
+            updateImage('theBodyImage', bodyImage[bodyIndex][p]);
+            updateImage('theLegImage', legImage[n]);
+
+            // get text output
+            document.getElementById('output').innerHTML = `
+                You generated a ${head[headIndex][r]}-headed ${body[bodyIndex][p]}!<br>
+            	 ${descriptions[m]}<br>
+                
+            `;
+        });
+
+		//function for get image output
+        function updateImage(containerId, imageUrl) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<img src="${imageUrl}">`;
+        }
+		
+
+
+	</script>
 </body>
 </html>
